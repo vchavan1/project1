@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ee">
+  <meta name="description" content="Clear, curious explainers about medicine and the science behind everyday health.">
+  <title>Field Notes — Medicine, made clearer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f5ee;
+      --ink: #1c2824;
+      --muted: #65716a;
+      --line: #d7d9cf;
+      --green: #245c49;
+      --green-dark: #193f34;
+      --lime: #d6e26e;
+      --coral: #e78369;
+      --white: #fffef9;
+      --serif: "Literata", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+      --mono: "DM Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    button, input, select, textarea { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    .topline { height: 7px; background: var(--green); }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner { width: min(1200px, calc(100% - 48px)); margin: auto; min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; background: var(--lime); border-radius: 50%; color: var(--green-dark); font-family: var(--serif); font-size: 21px; font-weight: 700; }
+    .brand-name { font-family: var(--serif); font-size: 21px; font-weight: 700; }
+    .brand-note { margin-left: 9px; color: var(--muted); font: 10px var(--mono); letter-spacing: 0; text-transform: uppercase; }
+    .header-actions { display: flex; align-items: center; gap: 22px; }
+    .header-link { font-size: 13px; color: var(--muted); text-decoration: none; }
+    .header-link:hover { color: var(--green); }
+    .write-button { border: 0; border-radius: 3px; background: var(--green); color: white; padding: 11px 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s, transform .2s; }
+    .write-button:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    main { width: min(1200px, calc(100% - 48px)); margin: auto; }
+    .hero { display: grid; grid-template-columns: 1.03fr .97fr; gap: 42px; align-items: center; padding: 55px 0 52px; border-bottom: 1px solid var(--line); }
+    .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--green); font: 10px var(--mono); text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--coral); }
+    h1 { max-width: 610px; margin: 19px 0 18px; font: 600 clamp(40px, 5vw, 65px)/1.07 var(--serif); letter-spacing: 0; }
+    h1 em { color: var(--green); font-weight: 500; }
+    .hero-copy { max-width: 470px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .hero-bottom { margin-top: 25px; display: flex; align-items: center; gap: 15px; }
+    .text-link { color: var(--green); font-size: 13px; font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+    .hero-count { color: var(--muted); font: 10px var(--mono); text-transform: uppercase; }
+    .hero-image { position: relative; min-height: 340px; overflow: hidden; background: #d9e3ce; }
+    .hero-image img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; object-position: center; }
+    .image-caption { position: absolute; right: 12px; bottom: 12px; padding: 7px 9px; background: rgba(255,254,249,.93); color: var(--green-dark); font: 9px var(--mono); text-transform: uppercase; }
+
+    .topics { display: flex; align-items: center; gap: 9px; padding: 21px 0; border-bottom: 1px solid var(--line); overflow-x: auto; }
+    .topic-label { flex: 0 0 auto; margin-right: 8px; color: var(--muted); font: 10px var(--mono); text-transform: uppercase; }
+    .topic-button { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 99px; padding: 8px 13px; background: transparent; color: #53625a; font-size: 12px; cursor: pointer; transition: .18s ease; }
+    .topic-button:hover, .topic-button[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: white; }
+
+    .library { padding: 39px 0 68px; }
+    .library-head { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 21px; }
+    .section-kicker { color: var(--coral); font: 10px var(--mono); text-transform: uppercase; }
+    h2 { margin: 6px 0 0; font: 600 32px/1.2 var(--serif); letter-spacing: 0; }
+    .search-wrap { position: relative; width: min(280px, 100%); }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-input { width: 100%; border: 1px solid var(--line); border-radius: 2px; padding: 11px 12px 11px 38px; background: var(--white); font-size: 12px; outline: none; }
+    .search-input:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(36,92,73,.12); }
+    .article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .article-card { min-height: 260px; display: flex; flex-direction: column; padding: 20px; background: var(--white); border: 1px solid var(--line); transition: transform .2s, border-color .2s; }
+    .article-card:hover { transform: translateY(-3px); border-color: #9caa9d; }
+    .card-meta { display: flex; justify-content: space-between; gap: 10px; align-items: center; color: var(--muted); font: 9px var(--mono); text-transform: uppercase; }
+    .card-topic { color: var(--green); }
+    .article-card h3 { margin: 22px 0 9px; max-width: 330px; font: 600 23px/1.22 var(--serif); letter-spacing: 0; }
+    .article-card p { margin: 0 0 20px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 12px; border-top: 1px solid #e8e9e1; }
+    .read-time { color: var(--muted); font: 9px var(--mono); text-transform: uppercase; }
+    .read-button { border: 0; padding: 5px 0; background: transparent; color: var(--green); font-size: 12px; font-weight: 700; cursor: pointer; }
+    .read-button:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .empty-state { grid-column: 1/-1; padding: 45px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); }
+
+    .editor-note { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 28px 30px; background: #e8ebdd; border-left: 4px solid var(--coral); }
+    .editor-note h2 { font-size: 21px; }
+    .editor-note p { margin: 9px 0 0; color: #53625a; font-size: 12px; line-height: 1.7; }
+    .editor-note .note-label { color: var(--green); font: 9px var(--mono); text-transform: uppercase; }
+    footer { margin-top: 50px; border-top: 1px solid var(--line); }
+    .footer-inner { width: min(1200px, calc(100% - 48px)); min-height: 82px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 11px; }
+    .footer-brand { color: var(--ink); font: 600 14px var(--serif); }
+
+    .dialog-backdrop { position: fixed; z-index: 5; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(16, 29, 24, .58); }
+    .dialog-backdrop.open { display: flex; }
+    .dialog { position: relative; width: min(680px, 100%); max-height: min(88vh, 850px); overflow: auto; padding: 30px; background: var(--paper); box-shadow: 0 22px 90px rgba(0,0,0,.2); animation: arrive .22s ease-out; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    .dialog-close { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border: 1px solid var(--line); background: transparent; font-size: 19px; cursor: pointer; }
+    .dialog-label { color: var(--green); font: 10px var(--mono); text-transform: uppercase; }
+    .dialog h2 { max-width: 570px; padding-right: 28px; margin: 14px 0 12px; font-size: 37px; }
+    .dialog-summary { color: var(--muted); font-size: 15px; line-height: 1.6; }
+    .dialog-body { margin-top: 24px; font: 16px/1.8 var(--serif); }
+    .dialog-body p { margin: 0 0 17px; }
+    .source-list { padding-top: 16px; border-top: 1px solid var(--line); }
+    .source-list strong { display: block; margin-bottom: 8px; font: 10px var(--mono); text-transform: uppercase; }
+    .source-list a { display: block; margin: 6px 0; color: var(--green); font-size: 12px; overflow-wrap: anywhere; }
+    .safety-note { padding: 11px 13px; background: #e8ebdd; color: #53625a; font-size: 11px; line-height: 1.6; }
+
+    .write-dialog { width: min(720px, 100%); }
+    .write-dialog form { display: grid; gap: 14px; margin-top: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--muted); font: 9px var(--mono); text-transform: uppercase; }
+    .field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 2px; padding: 11px; background: var(--white); color: var(--ink); outline: none; font-size: 13px; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green); }
+    .field textarea { min-height: 170px; resize: vertical; line-height: 1.6; }
+    .field textarea#draftSources { min-height: 70px; }
+    .form-help { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .form-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .form-actions small { color: var(--muted); font-size: 10px; }
+    .save-button { border: 0; border-radius: 2px; padding: 12px 17px; background: var(--green); color: white; font-weight: 600; cursor: pointer; }
+    .save-button:hover { background: var(--green-dark); }
+    .article-dialog .dialog-body { white-space: pre-line; }
+    .toast { position: fixed; z-index: 8; right: 22px; bottom: 22px; max-width: calc(100% - 44px); padding: 12px 16px; background: var(--green-dark); color: white; font-size: 12px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: .2s ease; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 760px) {
+      .header-inner, main, .footer-inner { width: min(100% - 32px, 600px); }
+      .header-inner { min-height: 68px; }
+      .brand-note, .header-link { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 25px; padding: 39px 0 31px; }
+      .hero-image { min-height: 255px; }
+      h1 { font-size: 48px; }
+      .library-head { align-items: start; flex-direction: column; }
+      .search-wrap { width: 100%; }
+      .article-grid { grid-template-columns: 1fr; }
+      .article-card { min-height: 225px; }
+      .editor-note { grid-template-columns: 1fr; gap: 18px; padding: 22px; }
+      .footer-inner { align-items: start; flex-direction: column; justify-content: center; padding: 20px 0; }
+      .dialog { padding: 24px 20px; }
+      .dialog h2 { font-size: 30px; }
+    }
+    @media (max-width: 420px) {
+      .header-actions { gap: 0; }
+      .write-button { padding: 10px 12px; }
+      h1 { font-size: 42px; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-actions { align-items: start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="Field Notes home">
+        <span class="brand-mark" aria-hidden="true">f.</span>
+        <span class="brand-name">Field Notes</span>
+        <span class="brand-note">medicine, made clearer</span>
+      </a>
+      <nav class="header-actions" aria-label="Main navigation">
+        <a class="header-link" href="#articles">Read the journal</a>
+        <button class="write-button" id="openWriter" type="button">+ Write an article</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">A curious guide to human health</div>
+        <h1 id="hero-title">Big ideas.<br><em>Clearer</em> medicine.</h1>
+        <p class="hero-copy">A growing collection of thoughtful, evidence-aware explainers about the body, health, and the science behind both.</p>
+        <div class="hero-bottom">
+          <a class="text-link" href="#articles">Explore the articles <span aria-hidden="true">&darr;</span></a>
+          <span class="hero-count" id="articleCount">03 notes</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="A scientist looking through a microscope in a bright laboratory" fetchpriority="high">
+        <span class="image-caption">Curiosity, with its sources attached</span>
+      </div>
+    </section>
+
+    <section class="topics" aria-label="Filter articles by topic">
+      <span class="topic-label">Browse by topic</span>
+      <button class="topic-button" type="button" data-topic="All" aria-pressed="true">All notes</button>
+      <button class="topic-button" type="button" data-topic="Everyday health" aria-pressed="false">Everyday health</button>
+      <button class="topic-button" type="button" data-topic="The body" aria-pressed="false">The body</button>
+      <button class="topic-button" type="button" data-topic="Medicine" aria-pressed="false">Medicine</button>
+      <button class="topic-button" type="button" data-topic="Science" aria-pressed="false">Science</button>
+    </section>
+
+    <section class="library" id="articles" aria-labelledby="library-title">
+      <div class="library-head">
+        <div>
+          <div class="section-kicker">The reading room</div>
+          <h2 id="library-title">Latest notes</h2>
+        </div>
+        <label class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7"/><path d="m16.2 16.2 4.3 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <input class="search-input" id="searchInput" type="search" placeholder="Search topics or articles" aria-label="Search articles">
+        </label>
+      </div>
+      <div class="article-grid" id="articleGrid" aria-live="polite"></div>
+    </section>
+
+    <aside class="editor-note" aria-label="Editorial approach">
+      <div>
+        <span class="note-label">The approach</span>
+        <h2>Make it understandable. Keep it honest.</h2>
+      </div>
+      <p>These articles are for learning, not personal medical advice. Each piece aims to distinguish what is well understood from what is still being studied, and to point readers toward its sources. For questions about your own health, talk with a qualified health professional.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">Field Notes <span aria-hidden="true">/</span> medicine, made clearer</span>
+      <span>Independent learning journal · Sources belong in every story</span>
+    </div>
+  </footer>
+
+  <div class="dialog-backdrop" id="articleBackdrop" role="presentation">
+    <article class="dialog article-dialog" role="dialog" aria-modal="true" aria-labelledby="articleTitle">
+      <button class="dialog-close" type="button" data-close="articleBackdrop" aria-label="Close article">&times;</button>
+      <div class="dialog-label" id="articleMeta"></div>
+      <h2 id="articleTitle"></h2>
+      <p class="dialog-summary" id="articleSummary"></p>
+      <div class="dialog-body" id="articleBody"></div>
+      <div class="source-list" id="articleSources"></div>
+      <p class="safety-note">This explainer is for general education and is not a substitute for advice from a qualified health professional.</p>
+    </article>
+  </div>
+
+  <div class="dialog-backdrop" id="writerBackdrop" role="presentation">
+    <section class="dialog write-dialog" role="dialog" aria-modal="true" aria-labelledby="writerTitle">
+      <button class="dialog-close" type="button" data-close="writerBackdrop" aria-label="Close writing form">&times;</button>
+      <div class="dialog-label">Your notebook</div>
+      <h2 id="writerTitle">Start a new article</h2>
+      <p class="form-help">Draft a clear explainer, then attach the sources that shaped it. Your articles are saved only in this browser.</p>
+      <form id="articleForm">
+        <div class="field"><label for="draftTitle">Article title</label><input id="draftTitle" name="title" maxlength="100" required placeholder="A question worth answering"></div>
+        <div class="form-row">
+          <div class="field"><label for="draftTopic">Topic</label><select id="draftTopic" name="topic"><option>Everyday health</option><option>The body</option><option>Medicine</option><option>Science</option></select></div>
+          <div class="field"><label for="draftReadTime">Reading time (minutes)</label><input id="draftReadTime" name="readTime" type="number" min="1" max="60" value="4" required></div>
+        </div>
+        <div class="field"><label for="draftSummary">Short summary</label><input id="draftSummary" name="summary" maxlength="180" required placeholder="What will a reader understand by the end?"></div>
+        <div class="field"><label for="draftBody">Article</label><textarea id="draftBody" name="body" required placeholder="Write your explainer here. Separate paragraphs with a blank line."></textarea></div>
+        <div class="field"><label for="draftSources">Sources (one URL per line)</label><textarea id="draftSources" name="sources" placeholder="https://..." aria-describedby="sourcesHelp"></textarea><small class="form-help" id="sourcesHelp">Prefer primary research and trusted health organizations. Check that each source supports the claim you cite.</small></div>
+        <div class="form-actions"><small>Saved on this device with browser storage.</small><button class="save-button" type="submit">Publish note</button></div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const starterArticles = [
+      {
+        id: "antibiotics-viruses",
+        title: "Why antibiotics don't work on a cold",
+        topic: "Medicine",
+        readTime: 4,
+        summary: "A quick guide to the difference between bacteria and viruses, and why that distinction matters when treating an infection.",
+        body: "A cold is usually caused by a virus. Antibiotics are medicines designed to treat certain bacterial infections, so they do not treat the virus that causes a typical cold.\n\nTaking antibiotics when they are not needed can still cause side effects. It also contributes to antibiotic resistance, which makes bacterial infections harder to treat.\n\nThe right treatment depends on the cause of an illness. A healthcare professional can help assess symptoms and decide whether testing or treatment is appropriate. Never use leftover antibiotics or someone else's prescription.",
+        sources: ["https://www.cdc.gov/antibiotic-use/about/index.html"]
+      },
+      {
+        id: "blood-pressure-basics",
+        title: "Two numbers, one blood pressure reading",
+        topic: "Everyday health",
+        readTime: 5,
+        summary: "What the upper and lower numbers describe, and why a single reading is only one part of the picture.",
+        body: "A blood pressure reading has two numbers. The top number, systolic pressure, describes pressure in the arteries when the heart beats. The bottom number, diastolic pressure, describes pressure between beats.\n\nBlood pressure can vary with activity, stress, and the way a measurement is taken. One reading on its own may not describe a person's usual blood pressure. Clinicians interpret readings in context and may recommend repeated measurements.\n\nIf you have questions about a result, ask a healthcare professional to explain what it means for you. This article is a starting point for understanding the terms, not a way to diagnose a condition.",
+        sources: ["https://www.cdc.gov/high-blood-pressure/about/index.html"]
+      },
+      {
+        id: "immune-memory",
+        title: "How vaccines help the immune system remember",
+        topic: "Science",
+        readTime: 6,
+        summary: "A plain-language look at immune memory and how vaccination prepares the body to respond to a pathogen.",
+        body: "The immune system can recognize features of a pathogen and build a response to them. Vaccines introduce an antigen, or instructions for making one, in a way that trains immune defenses without requiring a person to experience the disease itself.\n\nAfter vaccination, immune cells can retain a form of memory. If the body later encounters the relevant pathogen, that memory can help it respond. The details differ between vaccines and diseases, and protection is not always complete or permanent.\n\nVaccine recommendations depend on factors such as age, health, and local guidance. For personal decisions, consult a healthcare professional or your local public health authority.",
+        sources: ["https://www.who.int/health-topics/vaccines-and-immunization"]
+      }
+    ];
+
+    const storageKey = "field-notes-articles-v1";
+    let savedArticles = [];
+    try { savedArticles = JSON.parse(localStorage.getItem(storageKey) || "[]"); } catch { savedArticles = []; }
+    let activeTopic = "All";
+    let searchTerm = "";
+    const grid = document.getElementById("articleGrid");
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+    const allArticles = () => [...savedArticles, ...starterArticles];
+
+    function renderArticles() {
+      const filtered = allArticles().filter((article) => {
+        const matchesTopic = activeTopic === "All" || article.topic === activeTopic;
+        const searchable = `${article.title} ${article.topic} ${article.summary}`.toLowerCase();
+        return matchesTopic && searchable.includes(searchTerm.toLowerCase());
+      });
+      document.getElementById("articleCount").textContent = `${String(allArticles().length).padStart(2, "0")} notes`;
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="empty-state">No notes found. Try another search, or write the first one.</div>';
+        return;
+      }
+      grid.innerHTML = filtered.map((article) => `
+        <article class="article-card">
+          <div class="card-meta"><span class="card-topic">${escapeHtml(article.topic)}</span><span>${article.isDraft ? "Your note" : "Field note"}</span></div>
+          <h3>${escapeHtml(article.title)}</h3>
+          <p>${escapeHtml(article.summary)}</p>
+          <div class="card-bottom"><span class="read-time">${escapeHtml(article.readTime)} min read</span><button class="read-button" type="button" data-article-id="${escapeHtml(article.id)}">Read note &rarr;</button></div>
+        </article>`).join("");
+    }
+
+    function openDialog(id) {
+      const backdrop = document.getElementById(id);
+      backdrop.classList.add("open");
+      document.body.style.overflow = "hidden";
+      const close = backdrop.querySelector(".dialog-close");
+      close?.focus();
+    }
+
+    function closeDialog(backdrop) {
+      backdrop.classList.remove("open");
+      if (!document.querySelector(".dialog-backdrop.open")) document.body.style.overflow = "";
+    }
+
+    function showArticle(article) {
+      document.getElementById("articleMeta").textContent = `${article.topic} · ${article.readTime} min read`;
+      document.getElementById("articleTitle").textContent = article.title;
+      document.getElementById("articleSummary").textContent = article.summary;
+      document.getElementById("articleBody").textContent = article.body;
+      const sources = document.getElementById("articleSources");
+      const safeSources = (article.sources || []).filter((url) => {
+        try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; }
+      });
+      sources.innerHTML = safeSources.length
+        ? `<strong>Sources</strong>${safeSources.map((url) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>`).join("")}`
+        : "<strong>Sources</strong><span class=\"form-help\">No sources added yet.</span>";
+      openDialog("articleBackdrop");
+    }
+
+    grid.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-article-id]");
+      if (!button) return;
+      const article = allArticles().find((entry) => entry.id === button.dataset.articleId);
+      if (article) showArticle(article);
+    });
+
+    document.querySelectorAll(".topic-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeTopic = button.dataset.topic;
+        document.querySelectorAll(".topic-button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        renderArticles();
+      });
+    });
+    document.getElementById("searchInput").addEventListener("input", (event) => {
+      searchTerm = event.target.value.trim();
+      renderArticles();
+    });
+    document.getElementById("openWriter").addEventListener("click", () => openDialog("writerBackdrop"));
+    document.querySelectorAll("[data-close]").forEach((button) => {
+      button.addEventListener("click", () => closeDialog(document.getElementById(button.dataset.close)));
+    });
+    document.querySelectorAll(".dialog-backdrop").forEach((backdrop) => {
+      backdrop.addEventListener("click", (event) => {
+        if (event.target === backdrop) closeDialog(backdrop);
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") document.querySelectorAll(".dialog-backdrop.open").forEach(closeDialog);
+    });
+
+    document.getElementById("articleForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const title = String(form.get("title")).trim();
+      const body = String(form.get("body")).trim();
+      const article = {
+        id: `note-${Date.now()}`,
+        title,
+        topic: String(form.get("topic")),
+        readTime: Math.max(1, Number(form.get("readTime")) || 1),
+        summary: String(form.get("summary")).trim(),
+        body,
+        sources: String(form.get("sources")).split("\n").map((source) => source.trim()).filter(Boolean),
+        isDraft: true
+      };
+      savedArticles.unshift(article);
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(savedArticles));
+      } catch {
+        savedArticles.shift();
+        showToast("This browser could not save the note. Check available storage.");
+        return;
+      }
+      event.currentTarget.reset();
+      document.getElementById("draftReadTime").value = "4";
+      closeDialog(document.getElementById("writerBackdrop"));
+      activeTopic = "All";
+      document.querySelectorAll(".topic-button").forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.topic === "All")));
+      renderArticles();
+      showToast("Your note is saved in this browser.");
+      document.getElementById("articles").scrollIntoView({ behavior: "smooth" });
+    });
+
+    let toastTimer;
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    renderArticles();
+  </script>
+</body>
+</html>
